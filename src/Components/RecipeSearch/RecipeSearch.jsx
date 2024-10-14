@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { fetchRecipeData } from './api';
+import { fetchRecipeData } from '../API/fetchrecipe';
 import LazyLoad from 'react-lazyload';
-import { useRecipe } from './RecipeContext '; 
+import { useRecipe } from '../RecipeContext '; 
  // Import the custom hook to access context
 
 const RecipeSearch = () => {
@@ -65,7 +65,7 @@ const RecipeSearch = () => {
 
   return (
     <div>
-      <div className="flex justify-center mt-8">
+      <div className=" h-28 flex justify-center m-8">
         <form onSubmit={handleSearch} className="w-full max-w-lg">
           <div className="flex items-center">
             <input
@@ -107,35 +107,40 @@ const RecipeSearch = () => {
       {isError && <p>Error: {error.message}</p>}
 
       {/* Display Search Results */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-4">
-        {data?.hits.map((recipe) => (
-          <div onClick={() => handleCoinRedirect(recipe.recipe)} key={recipe.recipe.uri} className="card bg-base-100 w-72 shadow-xl">
-            <div className="px-10 pt-10">
-              <LazyLoad key={recipe.recipe.label} height={200} offset={100}>
-                <img
-                  src={recipe.recipe.image}
-                  alt={recipe.recipe.label}
-                  className=" transition-transform duration-500 ease-in-out transform hover:scale-105"
-                />
-              </LazyLoad>
-            </div>
-            <div className="card-body items-center text-center">
-              <h3 className="card-title">{recipe.recipe.label}</h3>
-              <p>{recipe.recipe.dietLabels.join(', ')}</p>
-              <div className="card-actions">
-                <a
-                  href={recipe.recipe.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-primary"
-                >
-                  View Recipe
-                </a>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
+  {data?.hits.map((recipe) => (
+    <div 
+      onClick={() => handleCoinRedirect(recipe.recipe)} 
+      key={recipe.recipe.uri} 
+      className="card bg-base-100 w-56 sm:w-64 md:w-72 shadow-xl"  // Adjust the width here
+    >
+      <div className="px-10 pt-10">
+        <LazyLoad key={recipe.recipe.label} height={200} offset={100}>
+          <img
+            src={recipe.recipe.image}
+            alt={recipe.recipe.label}
+            className=" items-center h-[120px] w-[120px] lg:h-auto lg:w-auto transition-transform duration-500 ease-in-out transform hover:scale-105"
+          />
+        </LazyLoad>
+      </div> 
+      <div className="card-body items-center text-center">
+        <h3 className="text-base font-sans-serif sm:text-sm card-title">{recipe.recipe.label}</h3>
+        <p className=' font-sans-serif'>{recipe.recipe.dietLabels.join(', ')}</p>
+        <div className="card-actions">
+          {/* <a
+            href={recipe.recipe.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+          >
+            View Recipe
+          </a> */}
+        </div>
       </div>
+    </div>
+  ))}
+</div>
+
 
       
     </div>
@@ -143,4 +148,3 @@ const RecipeSearch = () => {
 };
 
 export default RecipeSearch;
-

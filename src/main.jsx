@@ -15,9 +15,9 @@ createRoot(document.getElementById('root')).render(
 <BrowserRouter>
 <QueryClientProvider client={queryClient}>
 
+ {/* Wrap the App with I18nextProvider */}
     <App />
 </QueryClientProvider>
-
     </BrowserRouter>
   </StrictMode>,
 )
